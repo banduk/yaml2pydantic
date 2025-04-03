@@ -40,9 +40,9 @@ jobs:
         run: |
           source .venv/bin/activate
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            python -m safety check --full-report --base-ref=${{ github.base_ref }} --head-ref=${{ github.head_ref }}
+            python -m safety scan --full-report --base-ref=${{ github.base_ref }} --head-ref=${{ github.head_ref }}
           else
-            python -m safety check --full-report
+            python -m safety scan --full-report
           fi
 
       - name: Run bandit checks
