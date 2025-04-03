@@ -34,8 +34,8 @@ jobs:
 
       - name: Run security checks
         run: |
-          safety check
-          bandit -r yaml2pydantic
+          python -m safety check
+          python -m bandit -r yaml2pydantic
 
       - name: Run dependency review
         uses: actions/dependency-review-action@v3

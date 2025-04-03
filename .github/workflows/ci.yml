@@ -69,7 +69,7 @@ jobs:
 
       - name: Run linting
         run: |
-          ruff check .
-          black --check .
-          isort --check-only .
-          mypy .
+          python -m ruff check .
+          python -m black --check .
+          python -m isort --check-only .
+          python -m mypy .
