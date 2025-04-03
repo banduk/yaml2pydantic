@@ -32,6 +32,7 @@ autodoc_default_options = {
     "special-members": "__init__",
     "undoc-members": True,
     "exclude-members": "__weakref__",
+    "show-inheritance": True,
 }
 
 # Intersphinx settings
@@ -69,3 +70,6 @@ html_css_files = ["custom.css"]
 # Copy button settings
 copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
 copybutton_prompt_is_regexp = True
+
+# Add README.md to the documentation
+myst_include_patterns = ["README.md"]
