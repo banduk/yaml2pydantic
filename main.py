@@ -78,6 +78,14 @@ user2 = User(
         "start_date": "04/2025",
     }
 )
+pprint(user1)
+pprint(user2)
+pprint(user1.model_dump())
+pprint(user1.model_dump_json())
+pprint(user2.model_dump())
+pprint(user2.model_dump_json())
+
+
 user3 = User(
     **{
         "name": "Alice with a big Name",
@@ -88,12 +96,3 @@ user3 = User(
         "start_date": "04/2025",
     }
 )
-pprint(user1)
-pprint(user2)
-pprint(user3)
-pprint(user1.model_dump())
-pprint(user1.model_dump_json())
-pprint(user2.model_dump())
-pprint(user2.model_dump_json())
-pprint(user3.model_dump())
-pprint(user3.model_dump_json())

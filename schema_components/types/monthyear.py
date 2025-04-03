@@ -6,7 +6,7 @@ from typing import Any
 from pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler
 from pydantic_core import core_schema
 
-from schema_core.types import types
+from schema_core.registry import types
 
 
 class MonthYear:
@@ -76,11 +76,13 @@ class MonthYear:
             A core schema for string validation
 
         """
-        return core_schema.json_schema(
-            core_schema.str_schema(),
-            serialization=core_schema.function_schema(
-                lambda v: v.value.strftime("%m/%Y"),
-                return_schema=core_schema.str_schema(),
+        return core_schema.union_schema(
+            [
+                core_schema.is_instance_schema(cls),
+                core_schema.str_schema(),
+            ],
+            serialization=core_schema.plain_serializer_function_ser_schema(
+                lambda v: v.value.strftime("%m/%Y") if isinstance(v, MonthYear) else v
             ),
         )
 

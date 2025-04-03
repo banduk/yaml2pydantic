@@ -4,7 +4,7 @@ from schema_core.registry import serializers
 
 @serializers.serializer
 def money_as_string(value: Money) -> str:
-    """Serialize a Money instance to a string.
+    """Format a Money instance as a human-readable string.
 
     This serializer converts a Money instance into a formatted string
     representation, showing the currency symbol and the amount with
