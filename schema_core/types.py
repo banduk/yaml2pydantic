@@ -1,15 +1,11 @@
 from datetime import datetime
-from typing import Any, Dict, Optional, Type
+from typing import ClassVar
 
 
 class TypeRegistry:
-    """Registry for managing types used in schema definitions.
+    """Registry for custom types."""
 
-    This class maintains a registry of both built-in Python types
-    and custom types defined by the user.
-    """
-
-    BUILTIN_TYPES = {
+    BUILTIN_TYPES: ClassVar[dict[str, type]] = {
         "str": str,
         "int": int,
         "float": float,
@@ -19,38 +15,17 @@ class TypeRegistry:
 
     def __init__(self):
         """Initialize an empty type registry."""
-        self.custom_types: Dict[str, Type[Any]] = {}
+        self.custom_types: dict[str, type] = {}
 
-    def register(self, name: str, type_: Type[Any]):
-        """Register a custom type.
+    def register(self, name: str, type_class: type) -> None:
+        """Register a custom type."""
+        self.custom_types[name] = type_class
 
-        Args:
-        ----
-            name: Name of the type as used in schema definitions
-            type_: The actual Python type to register
-
-        """
-        self.custom_types[name] = type_
-
-    def resolve(self, type_str: str):
-        """Resolve a type string to its actual Python type.
-
-        Args:
-        ----
-            type_str: String representation of the type (e.g., "str", "Optional[str]")
-
-        Returns:
-        -------
-            The resolved Python type
-
-        Raises:
-        ------
-            KeyError: If the type is not found in either built-in or custom types
-
-        """
+    def resolve(self, type_str: str) -> type:
+        """Resolve a type string to a Python type."""
         if type_str.startswith("Optional["):
             inner = type_str[9:-1]
-            return Optional[self.resolve(inner)]
+            return self.resolve(inner) | None
         return self.BUILTIN_TYPES.get(type_str) or self.custom_types[type_str]
 
 

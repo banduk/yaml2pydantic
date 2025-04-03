@@ -8,7 +8,7 @@ This module provides functionality to load schema definitions from:
 
 import json
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any
 
 import yaml
 
@@ -17,7 +17,7 @@ class SchemaLoader:
     """Loader for schema definitions from various file formats and data structures."""
 
     @staticmethod
-    def load(source: Union[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def load(source: str | dict[str, Any]) -> dict[str, Any]:
         """Load a schema definition from a file or dictionary.
 
         Args:

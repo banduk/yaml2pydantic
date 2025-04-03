@@ -26,6 +26,9 @@ setup: ## Set up the development environment
 	@source .venv/bin/activate && uv pip install hatch
 	@echo "Setup complete! Activate your virtual environment with: source .venv/bin/activate"
 
+install: ## Install the dependencies
+	@source .venv/bin/activate && uv pip install -e .[dev]
+
 lint: ## Run the linter
 	@source .venv/bin/activate && ruff check .
 

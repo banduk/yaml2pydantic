@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from collections.abc import Callable
 
 
 class SerializerRegistry:
@@ -10,7 +10,7 @@ class SerializerRegistry:
 
     def __init__(self):
         """Initialize an empty serializer registry."""
-        self.serializers: Dict[str, Callable] = {}
+        self.serializers: dict[str, Callable] = {}
 
     def serializer(self, func: Callable):
         """Register a serializer function.

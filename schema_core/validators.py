@@ -1,4 +1,4 @@
-from typing import Callable, Dict
+from collections.abc import Callable
 
 
 class ValidatorRegistry:
@@ -10,7 +10,7 @@ class ValidatorRegistry:
 
     def __init__(self):
         """Initialize an empty validator registry."""
-        self.validators: Dict[str, Callable] = {}
+        self.validators: dict[str, Callable] = {}
 
     def validator(self, func: Callable):
         """Register a validator function.

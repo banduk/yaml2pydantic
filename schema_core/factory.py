@@ -1,7 +1,7 @@
 import importlib
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 from pydantic import (
     Field,
@@ -57,16 +57,16 @@ class ModelFactory:
         """
         from schema_core import registry  # noqa: F401
 
-        COMPONENT_PATH = Path(__file__).parent.parent / "schema_components"
-        MODULES = ["types", "validators", "serializers"]
+        component_path = Path(__file__).parent.parent / "schema_components"
+        modules = ["types", "validators", "serializers"]
 
-        for module in MODULES:
-            module_path = COMPONENT_PATH / module
+        for module in modules:
+            module_path = component_path / module
             for file in module_path.glob("*.py"):
                 if file.stem != "__init__":
                     importlib.import_module(f"schema_components.{module}.{file.stem}")
 
-    def _get_field_args(self, props: Dict[str, Any]) -> Dict[str, Any]:
+    def _get_field_args(self, props: dict[str, Any]) -> dict[str, Any]:
         """Extract field arguments from field properties.
 
         Args:
@@ -88,7 +88,7 @@ class ModelFactory:
 
         return field_args
 
-    def build_model(self, name: str, definition: Dict[str, Any]):
+    def build_model(self, name: str, definition: dict[str, Any]):
         """Build a Pydantic model from a schema definition.
 
         Args:
@@ -151,7 +151,7 @@ class ModelFactory:
 
         return model
 
-    def build_all(self, definitions: Dict[str, Any]):
+    def build_all(self, definitions: dict[str, Any]):
         """Build all models from a schema definition dictionary.
 
         This method handles forward references by:
