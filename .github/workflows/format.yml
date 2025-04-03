@@ -16,17 +16,25 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Create and activate virtual environment
+        run: |
+          uv venv
+          source .venv/bin/activate
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install black isort
+          uv pip install -e .[dev]
 
       - name: Format code
         run: |
-          black yaml2pydantic tests
-          isort yaml2pydantic tests
+          uv pip install black isort
+          black .
+          isort .
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
