@@ -17,17 +17,17 @@ Built for teams that want to define models declaratively in YAML but leverage al
 
 ## ✨ Key Features
 
-| Feature                       | Description                                                                |
-| ----------------------------- | -------------------------------------------------------------------------- |
-| 📄 YAML/JSON to Pydantic       | Define your models in YAML or JSON, and compile them into Pydantic models. |
-| 🧱 Custom Types                | Extend your schema with types like `Money`, `MonthYear`, etc.              |
-| 🧪 Validators                  | Use reusable or model-specific validators (`check_positive`, etc.)         |
-| 🎨 Serializers                 | Serialize fields or models however you want (`Money` → `"R$ 10,00"`)       |
-| 🔁 Field Defaults              | Fully supports defaults for primitive and complex types                    |
-| ⚙️ Dynamic ModelFactory        | All logic for building Pydantic models is centralized and pluggable        |
-| 📚 Registry-based architecture | Types, validators, serializers all managed through shared registries       |
-| 🔄 Auto-importing             | Components are automatically imported from schema_components directory      |
-| 🏗️ Built-in Types             | Support for common types like Money, MonthYear, and all Pydantic primitives |
+| Feature                       | Description                                                                 |
+| ----------------------------- | --------------------------------------------------------------------------- |
+| 📄 YAML/JSON to Pydantic       | Define your models in YAML or JSON, and compile them into Pydantic models.  |
+| 🧱 Custom Types                | Extend your schema with types like `Money`, `MonthYear`, etc.               |
+| 🧪 Validators                  | Use reusable or model-specific validators (`check_positive`, etc.)          |
+| 🎨 Serializers                 | Serialize fields or models however you want (`Money` → `"R$ 10,00"`)        |
+| 🔁 Field Defaults              | Fully supports defaults for primitive and complex types                     |
+| ⚙️ Dynamic ModelFactory        | All logic for building Pydantic models is centralized and pluggable         |
+| 📚 Registry-based architecture | Types, validators, serializers all managed through shared registries        |
+| 🔄 Auto-importing              | Components are automatically imported from schema_components directory      |
+| 🏗️ Built-in Types              | Support for common types like Money, MonthYear, and all Pydantic primitives |
 
 ---
 
@@ -456,18 +456,18 @@ except ValueError as e:
 
 Each field can include:
 
-| Key           | Description                                                       |
-| ------------- | ----------------------------------------------------------------- |
-| `type`        | Type name (built-in or custom)                                    |
-| `default`     | Optional default value                                            |
-| `validators`  | List of validator function names                                  |
-| `serializers` | List of serializer function names (for JSON output customization) |
-| `max_length`  | Maximum length for strings                                        |
-| `min_length`  | Minimum length for strings                                        |
-| `ge`          | Greater than or equal to (for numbers)                            |
-| `le`          | Less than or equal to (for numbers)                               |
-| `pattern`     | Regular expression pattern for strings                            |
-| ...and all other Pydantic field constraints                        |
+| Key                                         | Description                                                       |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| `type`                                      | Type name (built-in or custom)                                    |
+| `default`                                   | Optional default value                                            |
+| `validators`                                | List of validator function names                                  |
+| `serializers`                               | List of serializer function names (for JSON output customization) |
+| `max_length`                                | Maximum length for strings                                        |
+| `min_length`                                | Minimum length for strings                                        |
+| `ge`                                        | Greater than or equal to (for numbers)                            |
+| `le`                                        | Less than or equal to (for numbers)                               |
+| `pattern`                                   | Regular expression pattern for strings                            |
+| ...and all other Pydantic field constraints |
 
 ---
 
@@ -525,3 +525,141 @@ MIT
 ## 🙌 Special Thanks
 
 Inspired by the declarative power of OpenAPI and the performance of Pydantic.
+
+## ��️ Development Setup
+
+This project uses modern Python development tools from the Astral.sh ecosystem for a fast and efficient development experience.
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Git
+- Make (for using Makefile commands)
+
+### Development Tools
+
+We use the following tools from Astral.sh:
+- [Uv](https://github.com/astral-sh/uv) - Fast Python package installer
+- [Ruff](https://github.com/astral-sh/ruff) - Fast Python linter and formatter
+- [Hatch](https://hatch.pypa.io/) - Modern Python project management
+
+### Quick Start
+
+The project includes a Makefile to simplify common development tasks. Here's how to use it:
+
+1. Show available commands:
+```bash
+make help
+```
+
+2. Set up the development environment:
+```bash
+make setup
+```
+
+3. Activate the virtual environment:
+```bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+### Common Development Tasks
+
+The Makefile provides several useful commands:
+
+| Command       | Description                                                                           |
+| ------------- | ------------------------------------------------------------------------------------- |
+| `make setup`  | Set up the development environment (installs Uv, creates venv, installs dependencies) |
+| `make lint`   | Run the linter (Ruff)                                                                 |
+| `make format` | Format the code (Ruff)                                                                |
+| `make build`  | Build the project (Hatch)                                                             |
+| `make test`   | Run tests                                                                             |
+| `make clean`  | Clean up build artifacts                                                              |
+| `make dev`    | Start the development server                                                          |
+| `make all`    | Run all checks and build (setup, lint, format, build, test)                           |
+
+### Manual Setup (Alternative)
+
+If you prefer to set up manually instead of using the Makefile:
+
+1. Install Uv (the fast Python package installer):
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+2. Create a virtual environment and install dependencies:
+```bash
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+uv pip install -r requirements.txt
+```
+
+3. (Optional) Install Hatch for project management:
+```bash
+uv pip install hatch
+```
+
+### Development Workflow
+
+#### Code Quality
+
+- Lint your code:
+```bash
+make lint
+```
+
+- Format your code:
+```bash
+make format
+```
+
+#### Project Management
+
+- Build the project:
+```bash
+make build
+```
+
+### VS Code Integration
+
+The project includes VS Code settings for a seamless development experience. Make sure you have the following VS Code extensions installed:
+- Python
+- Ruff
+
+The configuration enables:
+- Format on save
+- Auto-fix on save
+- Ruff-based linting and formatting
+
+### Project Structure
+
+The project follows a clean, modular structure:
+```
+yaml2pydantic/
+├── main.py                        # Entry point to load + test models
+├── models/                        # YAML/JSON model definitions
+├── schema_components/            # Shared reusable logic
+└── schema_core/                  # Core schema engine
+```
+
+### Adding Dependencies
+
+To add new dependencies:
+
+1. Add them to `requirements.txt`
+2. Install using Uv:
+```bash
+make setup
+```
+
+Or manually:
+```bash
+source .venv/bin/activate && uv pip install -r requirements.txt
+```
+
+### Git Workflow
+
+The project uses Git for version control. Make sure to:
+- Create feature branches for new work
+- Keep commits focused and descriptive
+- Run linting and formatting before committing (`make lint format`)
+- Update documentation as needed

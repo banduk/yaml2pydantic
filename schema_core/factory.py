@@ -3,7 +3,14 @@ import logging
 from pathlib import Path
 from typing import Any, Dict
 
-from pydantic import Field, create_model, field_serializer, field_validator, model_validator
+from pydantic import (
+    Field,
+    create_model,
+    field_serializer,
+    field_validator,
+    model_validator,
+)
+
 from schema_core.serializers import SerializerRegistry
 from schema_core.types import TypeRegistry
 from schema_core.validators import ValidatorRegistry
@@ -12,9 +19,31 @@ logger = logging.getLogger(__name__)
 
 
 class ModelFactory:
+    """Factory for building Pydantic models from schema definitions.
+
+    This class handles the conversion of YAML/JSON schema definitions into
+    Pydantic models, including:
+    - Custom type resolution
+    - Field validation
+    - Model validation
+    - Custom serialization
+    """
+
     def __init__(
-        self, types: TypeRegistry, validators: ValidatorRegistry, serializers: SerializerRegistry
+        self,
+        types: TypeRegistry,
+        validators: ValidatorRegistry,
+        serializers: SerializerRegistry,
     ):
+        """Initialize the ModelFactory.
+
+        Args:
+        ----
+            types: Registry of available types (built-in and custom)
+            validators: Registry of field and model validators
+            serializers: Registry of field serializers
+
+        """
         self.types = types
         self.validators = validators
         self.serializers = serializers
@@ -22,6 +51,10 @@ class ModelFactory:
         self._load_schema_components()
 
     def _load_schema_components(self):
+        """Load all schema components from the schema_components directory.
+
+        This includes types, validators, and serializers.
+        """
         from schema_core import registry  # noqa: F401
 
         COMPONENT_PATH = Path(__file__).parent.parent / "schema_components"
@@ -34,6 +67,17 @@ class ModelFactory:
                     importlib.import_module(f"schema_components.{module}.{file.stem}")
 
     def _get_field_args(self, props: Dict[str, Any]) -> Dict[str, Any]:
+        """Extract field arguments from field properties.
+
+        Args:
+        ----
+            props: Field properties from the schema definition
+
+        Returns:
+        -------
+            Dictionary of field arguments for Pydantic Field
+
+        """
         field_args = {}
 
         # Handle all possible field constraints
@@ -45,6 +89,18 @@ class ModelFactory:
         return field_args
 
     def build_model(self, name: str, definition: Dict[str, Any]):
+        """Build a Pydantic model from a schema definition.
+
+        Args:
+        ----
+            name: Name of the model to create
+            definition: Schema definition for the model
+
+        Returns:
+        -------
+            A Pydantic model class
+
+        """
         if name in self.models:
             return self.models[name]
 
@@ -96,6 +152,21 @@ class ModelFactory:
         return model
 
     def build_all(self, definitions: Dict[str, Any]):
+        """Build all models from a schema definition dictionary.
+
+        This method handles forward references by:
+        1. Pre-registering dummy models
+        2. Building and replacing them with real models
+
+        Args:
+        ----
+            definitions: Dictionary of model definitions
+
+        Returns:
+        -------
+            Dictionary mapping model names to their Pydantic model classes
+
+        """
         # Step 1: Pre-register dummy models in the registry for forward references
         for name in definitions:
             # Register dummy model so types.resolve() can find it

@@ -1,5 +1,15 @@
+"""Example usage of the yaml2pydantic library.
+
+This module demonstrates how to:
+1. Define models in YAML
+2. Load and compile them into Pydantic models
+3. Create instances with different input formats
+4. Serialize models to different formats
+"""
+
 import yaml
 from rich import print as pprint
+
 from schema_components.types.money import Money
 from schema_core.factory import ModelFactory
 from schema_core.loader import SchemaLoader
