@@ -6,9 +6,18 @@ on:
   pull_request:
     branches: [main]
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   docs:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,7 +44,7 @@ jobs:
         run: |
           source .venv/bin/activate
           uv pip install -e .[dev]
-          # Verify installed packages.
+          # Verify installed packages
           pip list
           # Check Sphinx version and configuration
           python -m sphinx --version
@@ -59,3 +68,4 @@ jobs:
           publish_dir: ./docs/_build/html
           publish_branch: gh-pages
           commit_message: "docs: update documentation"
+          force_orphan: true # Create a new history for gh-pages branch
