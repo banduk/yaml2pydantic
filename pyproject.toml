@@ -12,17 +12,31 @@ dependencies = ["pydantic>=2.0.0", "pyyaml>=6.0.0", "rich>=13.0.0"]
 
 [project.optional-dependencies]
 dev = [
+  # Testing
   "pytest>=7.0.0",
+  "pytest-cov>=6.1.0",
+
+  # Linting and formatting
+  "ruff>=0.2.0",
   "black>=23.0.0",
   "isort>=5.0.0",
   "mypy>=1.0.0",
-  "ruff>=0.2.0",
+
+  # Documentation
   "sphinx>=7.0.0",
   "furo>=2023.9.10",
   "sphinx-autodoc-typehints>=1.25.0",
   "myst-parser>=2.0.0",
   "sphinx-copybutton>=0.5.2",
   "sphinx-design>=0.5.0",
+
+  # Security
+  "safety>=2.0.0",
+  "bandit>=1.7.0",
+
+  # Publishing
+  "build>=1.0.0",
+  "twine>=4.0.0",
 ]
 
 [tool.hatch.build.targets.wheel]

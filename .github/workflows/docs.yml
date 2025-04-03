@@ -32,7 +32,6 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
-          uv pip install sphinx furo sphinx-autodoc-typehints myst-parser sphinx-copybutton sphinx-design
 
       - name: Build documentation
         run: |

@@ -33,7 +33,6 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
-          uv pip install pytest pytest-cov
 
       - name: Run tests
         run: |
@@ -67,7 +66,6 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
-          uv pip install ruff black isort mypy
 
       - name: Run linting
         run: |
