@@ -31,10 +31,10 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
+          uv pip install safety bandit
 
       - name: Run security checks
         run: |
-          uv pip install safety bandit
           safety check
           bandit -r yaml2pydantic
 
