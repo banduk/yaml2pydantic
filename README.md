@@ -483,12 +483,37 @@ You'll see pretty-printed model outputs.
 
 ---
 
-## 📌 Requirements
+## 🚀 Installation
 
-- Python 3.11+
-- Pydantic v2+
-- PyYAML
-- Rich (for console output)
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/yaml2pydantic.git
+cd yaml2pydantic
+```
+
+2. Create and activate a virtual environment:
+```bash
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+uv pip install -e .[dev]
+```
+
+## 📦 Adding New Dependencies
+
+To add new dependencies:
+
+1. Add them to `pyproject.toml` under the appropriate section:
+   - For runtime dependencies: Add to `[project].dependencies`
+   - For development dependencies: Add to `[project.optional-dependencies].dev`
+
+2. Install the updated dependencies:
+```bash
+source .venv/bin/activate && uv pip install -e .[dev]
+```
 
 ---
 
@@ -526,7 +551,7 @@ MIT
 
 Inspired by the declarative power of OpenAPI and the performance of Pydantic.
 
-## ��️ Development Setup
+## 🧪 Development Setup
 
 This project uses modern Python development tools from the Astral.sh ecosystem for a fast and efficient development experience.
 
@@ -577,48 +602,6 @@ The Makefile provides several useful commands:
 | `make dev`    | Start the development server                                                          |
 | `make all`    | Run all checks and build (setup, lint, format, build, test)                           |
 
-### Manual Setup (Alternative)
-
-If you prefer to set up manually instead of using the Makefile:
-
-1. Install Uv (the fast Python package installer):
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-2. Create a virtual environment and install dependencies:
-```bash
-uv venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-uv pip install -r requirements.txt
-```
-
-3. (Optional) Install Hatch for project management:
-```bash
-uv pip install hatch
-```
-
-### Development Workflow
-
-#### Code Quality
-
-- Lint your code:
-```bash
-make lint
-```
-
-- Format your code:
-```bash
-make format
-```
-
-#### Project Management
-
-- Build the project:
-```bash
-make build
-```
-
 ### VS Code Integration
 
 The project includes VS Code settings for a seamless development experience. Make sure you have the following VS Code extensions installed:
@@ -645,15 +628,13 @@ yaml2pydantic/
 
 To add new dependencies:
 
-1. Add them to `requirements.txt`
-2. Install using Uv:
-```bash
-make setup
-```
+1. Add them to `pyproject.toml` under the appropriate section:
+   - For runtime dependencies: Add to `[project].dependencies`
+   - For development dependencies: Add to `[project.optional-dependencies].dev`
 
-Or manually:
+2. Install the updated dependencies:
 ```bash
-source .venv/bin/activate && uv pip install -r requirements.txt
+source .venv/bin/activate && uv pip install -e .[dev]
 ```
 
 ### Git Workflow

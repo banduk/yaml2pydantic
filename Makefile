@@ -21,7 +21,7 @@ setup: ## Set up the development environment
 	@echo "Creating virtual environment..."
 	@uv venv
 	@echo "Installing dependencies..."
-	@source .venv/bin/activate && uv pip install -r requirements.txt
+	@source .venv/bin/activate && uv pip install -e .[dev]
 	@echo "Installing Hatch..."
 	@source .venv/bin/activate && uv pip install hatch
 	@echo "Setup complete! Activate your virtual environment with: source .venv/bin/activate"

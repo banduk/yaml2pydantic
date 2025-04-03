@@ -11,7 +11,48 @@ requires-python = ">=3.11"
 dependencies = ["pydantic>=2.0.0", "pyyaml>=6.0.0", "rich>=13.0.0"]
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0.0", "black>=23.0.0", "isort>=5.0.0", "mypy>=1.0.0"]
+dev = [
+  "pytest>=7.0.0",
+  "black>=23.0.0",
+  "isort>=5.0.0",
+  "mypy>=1.0.0",
+  "ruff>=0.2.0",
+  "sphinx>=7.0.0",
+  "furo>=2023.9.10",
+  "sphinx-autodoc-typehints>=1.25.0",
+  "myst-parser>=2.0.0",
+  "sphinx-copybutton>=0.5.2",
+  "sphinx-design>=0.5.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["schema_components", "schema_core"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = ["E", "F", "B", "I", "N", "UP", "PL", "RUF"]
+ignore = []
+
+[tool.ruff.isort]
+known-first-party = ["yaml2pydantic"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true

@@ -20,12 +20,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .[dev]
+          uv pip install -e .[dev]
 
       - name: Run tests
         run: |
@@ -46,16 +48,18 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .[dev]
+          uv pip install -e .[dev]
 
       - name: Run linting
         run: |
-          flake8 yaml2pydantic tests
-          black --check yaml2pydantic tests
-          isort --check-only yaml2pydantic tests
-          mypy yaml2pydantic
+          ruff check .
+          black --check .
+          isort --check-only .
+          mypy .
