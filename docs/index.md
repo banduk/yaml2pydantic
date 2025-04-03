@@ -2,6 +2,9 @@
 
 A Python library for converting YAML files to Pydantic models.
 
+```{include} ../README.md
+```
+
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
@@ -39,4 +42,17 @@ pip install yaml2pydantic
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## API Documentation
+
+The following sections contain the detailed API documentation:
+
+```{toctree}
+:maxdepth: 2
+:caption: API Reference
+
+api/yaml2pydantic
+api/models
+api/utils
+``` 
