@@ -1,18 +1,18 @@
 name: Security
 
 on:
+  pull_request:
+    types: [opened, synchronize]
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-  schedule:
-    - cron: "0 0 * * 0" # Weekly
 
 jobs:
   security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,10 +36,18 @@ jobs:
           source .venv/bin/activate
           uv pip install -e .[dev]
 
-      - name: Run security checks
+      - name: Run safety checks
         run: |
           source .venv/bin/activate
-          python -m safety check
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            python -m safety check --full-report --base-ref=${{ github.base_ref }} --head-ref=${{ github.head_ref }}
+          else
+            python -m safety check --full-report
+          fi
+
+      - name: Run bandit checks
+        run: |
+          source .venv/bin/activate
           python -m bandit -r yaml2pydantic
 
       - name: Run dependency review
