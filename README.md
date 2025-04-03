@@ -11,6 +11,8 @@
 - ✅ Auto-importing of components
 - ✅ Built-in type system
 
+📚 [View the full documentation](https://yourusername.github.io/yaml2pydantic/)
+
 Built for teams that want to define models declaratively in YAML but leverage all the power of Pydantic v2.
 
 ---
