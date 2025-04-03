@@ -36,19 +36,10 @@ jobs:
           source .venv/bin/activate
           uv pip install -e .[dev]
 
-      - name: Run safety checks
+      - name: Run security checks
         run: |
           source .venv/bin/activate
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            python -m safety scan --full-report --base-ref=${{ github.base_ref }} --head-ref=${{ github.head_ref }}
-          else
-            python -m safety scan --full-report
-          fi
-
-      - name: Run bandit checks
-        run: |
-          source .venv/bin/activate
-          python -m bandit -r yaml2pydantic
+          make security-check
 
       - name: Run dependency review
         uses: actions/dependency-review-action@v3

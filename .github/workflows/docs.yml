@@ -48,7 +48,7 @@ jobs:
           pwd
           ls -la
           # Build with verbose output
-          python -m sphinx -v -b html docs docs/_build/html
+          make docs
 
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
