@@ -50,6 +50,8 @@ dev: ## Start development server
 security-check: ## Run security checks
 	@source .venv/bin/activate && \
 	bandit -r . --skip B101 --exclude .venv,venv,env,site-packages,dist,build && \
-	safety scan
+	echo ".venv\nvenv\nenv\nsite-packages\ndist\nbuild" > .trufflehog-exclude && \
+	trufflehog file://. --repo_path . --exclude_paths .trufflehog-exclude && \
+	rm .trufflehog-exclude
 
 all: setup lint format test ## Run all checks 
