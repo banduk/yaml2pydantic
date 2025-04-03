@@ -1,4 +1,4 @@
-.PHONY: setup lint format clean test help
+.PHONY: setup lint format clean test help security-check
 
 help: ## Show this help message
 	@echo 'Usage:'
@@ -46,5 +46,10 @@ clean: ## Clean up build artifacts
 
 dev: ## Start development server
 	@source .venv/bin/activate && python main.py
+
+security-check: ## Run security checks
+	@source .venv/bin/activate && \
+	bandit -r . --skip B101 --exclude .venv,venv,env,site-packages,dist,build && \
+	safety scan
 
 all: setup lint format test ## Run all checks 
