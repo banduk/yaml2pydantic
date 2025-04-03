@@ -21,23 +21,23 @@ setup: ## Set up the development environment
 	@echo "Creating virtual environment..."
 	@uv venv
 	@echo "Installing dependencies..."
-	@source .venv/bin/activate && uv pip install -e .[dev]
-	@echo "Setup complete! Activate your virtual environment with: source .venv/bin/activate"
+	@. .venv/bin/activate && uv pip install -e .[dev]
+	@echo "Setup complete! Activate your virtual environment with: . .venv/bin/activate"
 
 install: ## Install the dependencies
-	@source .venv/bin/activate && uv pip install -e .[dev]
+	@. .venv/bin/activate && uv pip install -e .[dev]
 
 lint: ## Run the linter
-	@source .venv/bin/activate && ruff check .
+	@. .venv/bin/activate && ruff check .
 
 lint-fix: ## Run the linter and fix the issues
-	@source .venv/bin/activate && ruff check --fix .
+	@. .venv/bin/activate && ruff check --fix .
 
 format: ## Format the code
-	@source .venv/bin/activate && ruff format .
+	@. .venv/bin/activate && ruff format .
 
 test: ## Run tests
-	@source .venv/bin/activate && python -m pytest
+	@. .venv/bin/activate && python -m pytest
 
 clean: ## Clean up build artifacts
 	@rm -rf .pytest_cache/ .ruff_cache/
@@ -45,10 +45,10 @@ clean: ## Clean up build artifacts
 	@find . -type f -name "*.pyc" -delete
 
 dev: ## Start development server
-	@source .venv/bin/activate && python main.py
+	@. .venv/bin/activate && python main.py
 
 security-check: ## Run security checks
-	@source .venv/bin/activate && \
+	@. .venv/bin/activate && \
 	bandit -r . --skip B101 --exclude .venv,venv,env,site-packages,dist,build && \
 	echo ".venv\nvenv\nenv\nsite-packages\ndist\nbuild\n.buildinfo" > .trufflehog-exclude && \
 	trufflehog file://. --repo_path . --exclude_paths .trufflehog-exclude && \
