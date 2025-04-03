@@ -1,6 +1,9 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["schema_core", "schema_components"]
 
 [project]
 name = "yaml2pydantic"
@@ -33,14 +36,7 @@ dev = [
   # Security
   "safety>=2.0.0",
   "bandit>=1.7.0",
-
-  # Publishing
-  "build>=1.0.0",
-  "twine>=4.0.0",
 ]
-
-[tool.hatch.build.targets.wheel]
-packages = ["schema_components", "schema_core"]
 
 [tool.ruff]
 line-length = 88
