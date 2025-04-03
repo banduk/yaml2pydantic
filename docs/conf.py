@@ -6,8 +6,8 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # Project information
 project = "yaml2pydantic"
-copyright = f"{datetime.now().year}, Your Name"
-author = "Your Name"
+copyright = f"{datetime.now().year}, Mauricio Banduk"
+author = "Mauricio Banduk"
 
 # The full version, including alpha/beta/rc tags
 release = "0.1.0"
@@ -58,7 +58,7 @@ myst_enable_extensions = [
 html_theme = "furo"
 html_theme_options = {
     "navigation_with_keys": True,
-    "source_repository": "https://github.com/yourusername/yaml2pydantic/",
+    "source_repository": "https://github.com/banduk/yaml2pydantic/",
     "source_branch": "main",
     "source_directory": "docs/",
 }
@@ -73,3 +73,7 @@ copybutton_prompt_is_regexp = True
 
 # Add README.md to the documentation
 myst_include_patterns = ["README.md"]
+
+# HTML settings
+html_title = "yaml2pydantic"
+html_baseurl = "https://banduk.github.io/yaml2pydantic/"
