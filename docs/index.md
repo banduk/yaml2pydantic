@@ -9,9 +9,7 @@ A Python library for converting YAML files to Pydantic models.
 :maxdepth: 2
 :caption: Contents
 
-installation
-usage
-api
+api/index
 contributing
 ```
 
@@ -52,7 +50,6 @@ The following sections contain the detailed API documentation:
 :maxdepth: 2
 :caption: API Reference
 
-api/yaml2pydantic
-api/models
-api/utils
+api/schema_core
+api/schema_components
 ``` 
