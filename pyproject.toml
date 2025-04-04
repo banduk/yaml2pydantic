@@ -47,6 +47,7 @@ line-length = 88
 target-version = "py311"
 select = ["E", "F", "B", "I", "N", "UP", "PL", "RUF"]
 ignore = []
+per-file-ignores = { "tests/**/*.py" = ["PLR2004"] }
 
 [tool.ruff.isort]
 known-first-party = ["yaml2pydantic"]
