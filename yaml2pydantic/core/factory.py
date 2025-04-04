@@ -11,9 +11,9 @@ from pydantic import (
     model_validator,
 )
 
-from schema_core.serializers import SerializerRegistry
-from schema_core.type_registry import TypeRegistry
-from schema_core.validators import ValidatorRegistry
+from yaml2pydantic.core.serializers import SerializerRegistry
+from yaml2pydantic.core.type_registry import TypeRegistry
+from yaml2pydantic.core.validators import ValidatorRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -48,23 +48,25 @@ class ModelFactory:
         self.validators = validators
         self.serializers = serializers
         self.models: dict[str, Any] = {}
-        self._load_schema_components()
+        self._load_components()
 
-    def _load_schema_components(self) -> None:
-        """Load all schema components from the schema_components directory.
+    def _load_components(self) -> None:
+        """Load all schema components from the components directory.
 
         This includes types, validators, and serializers.
         """
-        from schema_core import registry  # noqa: F401
+        from yaml2pydantic.core import registry  # noqa: F401
 
-        component_path = Path(__file__).parent.parent / "schema_components"
+        component_path = Path(__file__).parent.parent / "components"
         modules = ["types", "validators", "serializers"]
 
         for module in modules:
             module_path = component_path / module
             for file in module_path.glob("*.py"):
                 if file.stem != "__init__":
-                    importlib.import_module(f"schema_components.{module}.{file.stem}")
+                    importlib.import_module(
+                        f"yaml2pydantic.components.{module}.{file.stem}"
+                    )
 
     def _get_field_args(self, props: dict[str, Any]) -> dict[str, Any]:
         """Extract field arguments from field properties.

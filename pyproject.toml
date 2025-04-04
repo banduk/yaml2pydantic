@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["schema_core", "schema_components"]
+packages = ["schema_core", "components"]
 
 [project]
 name = "yaml2pydantic"

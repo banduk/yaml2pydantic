@@ -1,6 +1,6 @@
 import pytest
 
-from schema_core.registry import serializers, types, validators
+from yaml2pydantic.core.registry import serializers, types, validators
 
 
 def test_registry_initialization() -> None:

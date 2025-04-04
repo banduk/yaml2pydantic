@@ -15,5 +15,5 @@ schema_core
 ```{toctree}
 :maxdepth: 2
 
-schema_components
+components
 ``` 

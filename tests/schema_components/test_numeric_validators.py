@@ -1,6 +1,6 @@
 import pytest
 
-from schema_components.validators.numeric import check_positive
+from yaml2pydantic.components.validators.numeric import check_positive
 
 
 def test_check_positive_valid() -> None:

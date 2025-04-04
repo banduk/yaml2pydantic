@@ -1,5 +1,5 @@
-from schema_components.types.money import Money
-from schema_core.registry import serializers
+from yaml2pydantic.components.types.money import Money
+from yaml2pydantic.core.registry import serializers
 
 
 @serializers.serializer

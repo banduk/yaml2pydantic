@@ -28,7 +28,7 @@ Built for teams that want to define models declaratively in YAML but leverage al
 | 🔁 Field Defaults              | Fully supports defaults for primitive and complex types                     |
 | ⚙️ Dynamic ModelFactory        | All logic for building Pydantic models is centralized and pluggable         |
 | 📚 Registry-based architecture | Types, validators, serializers all managed through shared registries        |
-| 🔄 Auto-importing              | Components are automatically imported from schema_components directory      |
+| 🔄 Auto-importing              | Components are automatically imported from components directory             |
 | 🏗️ Built-in Types              | Support for common types like Money, MonthYear, and all Pydantic primitives |
 
 ---
@@ -56,7 +56,7 @@ yaml2pydantic/
 ├── main.py                        # Entry point to load + test models
 ├── models/                        # YAML/JSON model definitions
 │   └── user.yaml
-├── schema_components/            # Shared reusable logic
+├── components/            # Shared reusable logic
 │   ├── serializers/              # Custom serialization functions
 │   │   └── money.py             # Money-specific serializers
 │   ├── types/                    # Custom types (Money, MonthYear)
@@ -218,7 +218,7 @@ yaml2pydantic/
 ├── main.py                        # Entry point to load + test models
 ├── models/                        # YAML/JSON model definitions
 │   └── user.yaml
-├── schema_components/            # Shared reusable logic
+├── components/            # Shared reusable logic
 │   ├── serializers/              # Custom serialization functions
 │   │   └── money.py             # Money-specific serializers
 │   ├── types/                    # Custom types (Money, MonthYear)

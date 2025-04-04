@@ -51,5 +51,5 @@ The following sections contain the detailed API documentation:
 :caption: API Reference
 
 api/schema_core
-api/schema_components
+api/components
 ``` 

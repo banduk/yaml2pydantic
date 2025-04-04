@@ -1,5 +1,5 @@
-from schema_components.serializers.money import money_as_string
-from schema_components.types.money import Money
+from yaml2pydantic.components.serializers.money import money_as_string
+from yaml2pydantic.components.types.money import Money
 
 
 def test_money_as_string_default_currency() -> None:

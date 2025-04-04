@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from schema_core.type_registry import TypeRegistry
+from yaml2pydantic.core.type_registry import TypeRegistry
 
 
 def test_type_registry_initialization() -> None:

@@ -1,6 +1,6 @@
 import pytest
 
-from schema_core.validators import ValidatorRegistry
+from yaml2pydantic.core.validators import ValidatorRegistry
 
 
 def test_validator_registry_initialization() -> None:

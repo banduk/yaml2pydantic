@@ -3,7 +3,7 @@ from datetime import datetime
 import pytest
 from pydantic import TypeAdapter
 
-from schema_components.types.monthyear import MonthYear
+from yaml2pydantic.components.types.monthyear import MonthYear
 
 
 def test_monthyear_initialization() -> None:

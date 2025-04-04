@@ -1,6 +1,6 @@
 import pytest
 
-from schema_components.types.money import Money
+from yaml2pydantic.components.types.money import Money
 
 
 def test_money_initialization() -> None:

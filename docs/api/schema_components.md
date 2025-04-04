@@ -3,27 +3,27 @@
 This section contains the documentation for the schema components of yaml2pydantic.
 
 ```{eval-rst}
-.. automodule:: schema_components.types.money
+.. automodule:: components.types.money
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_components.types.monthyear
+.. automodule:: components.types.monthyear
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_components.serializers.money
+.. automodule:: components.serializers.money
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_components.validators.email
+.. automodule:: components.validators.email
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_components.validators.numeric
+.. automodule:: components.validators.numeric
    :members:
    :undoc-members:
    :show-inheritance:

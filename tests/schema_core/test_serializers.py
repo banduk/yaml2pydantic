@@ -1,6 +1,6 @@
 import pytest
 
-from schema_core.serializers import SerializerRegistry
+from yaml2pydantic.core.serializers import SerializerRegistry
 
 
 def test_serializer_registry_initialization() -> None:
