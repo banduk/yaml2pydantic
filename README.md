@@ -1,5 +1,12 @@
 # 🧬 yaml2pydantic
 
+[![PyPI version](https://badge.fury.io/py/yaml2pydantic.svg)](https://badge.fury.io/py/yaml2pydantic)
+[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI Status](https://github.com/banduk/yaml2pydantic/actions/workflows/ci.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/ci.yml)
+[![Documentation Status](https://github.com/banduk/yaml2pydantic/actions/workflows/docs.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/docs.yml)
+[![Security Scan](https://github.com/banduk/yaml2pydantic/actions/workflows/security.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/security.yml)
+
 **A powerful, extensible schema compiler that turns YAML/JSON definitions into dynamic Pydantic models** — with full support for:
 
 - ✅ Custom types  
@@ -33,54 +40,56 @@ Built for teams that want to define models declaratively in YAML but leverage al
 
 ---
 
-## 🛠️ Installation
+## 🚀 Quick Start (For Users)
+
+### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/banduk/yaml2pydantic.git
-cd yaml2pydantic
-
-# Set up the development environment
-make setup
-
-# Activate the virtual environment
-source .venv/bin/activate
+pip install yaml2pydantic
 ```
 
----
+### Basic Usage
 
-## 🧭 Project Structure
-
-```
-yaml2pydantic/
-├── main.py                       # Entry point to load + test models
-├── models/                       # YAML/JSON model definitions
-│   └── user.yaml
-├── components/                   # Shared reusable logic
-│   ├── serializers/              # Custom serialization functions
-│   │   └── money.py              # Money-specific serializers
-│   ├── types/                    # Custom types (Money, MonthYear)
-│   │   ├── money.py              # Money type implementation
-│   │   └── monthyear.py          # MonthYear type implementation
-│   └── validators/               # Custom validation logic
-│       ├── email.py              # Email-related validators
-│       └── numeric.py            # Numeric validators
-└── core/                         # Core schema engine
-    ├── factory.py                # ModelFactory that builds Pydantic models
-    ├── loader.py                 # Loads YAML, JSON, or dict input
-    ├── registry.py               # Shared registries for types, validators, serializers
-    ├── types.py                  # TypeRegistry
-    ├── validators.py             # ValidatorRegistry
-    └── serializers.py            # SerializerRegistry
-```
-
----
-
-## 🛠️ How It Works
-
-### 1. 📝 Define Your Model in YAML
+1. Define your model in YAML:
 
 ```yaml
+# models/user.yaml
+User:
+  fields:
+    name:
+      type: str
+      max_length: 10
+    age:
+      type: int
+      ge: 0
+    email:
+      type: Optional[str]
+      default: null
+```
+
+2. Use it in your Python code:
+
+```python
+from yaml2pydantic import ModelFactory
+
+# Load and compile the model
+factory = ModelFactory()
+User = factory.create_model("User", "models/user.yaml")
+
+# Use it like any Pydantic model
+user = User(
+    name="John Doe",
+    age=30,
+    email="john@example.com"
+)
+```
+
+### Advanced Usage Example
+
+Here's a more comprehensive example showing the full power of yaml2pydantic:
+
+```yaml
+# models/user.yaml
 User:
   fields:
     name:
@@ -122,8 +131,6 @@ Address:
       pattern: "^[0-9]{5}(-[0-9]{4})?$"
 ```
 
-### 2. 🏗️ Compile to Pydantic
-
 ```python
 from yaml2pydantic import ModelFactory
 
@@ -147,9 +154,84 @@ user = User(
 )
 ```
 
+### Advanced Features
+
+- [Custom Types](https://banduk.github.io/yaml2pydantic/types/)
+- [Validators](https://banduk.github.io/yaml2pydantic/validators/)
+- [Serializers](https://banduk.github.io/yaml2pydantic/serializers/)
+- [Default Values](https://banduk.github.io/yaml2pydantic/defaults/)
+- [Nested Models](https://banduk.github.io/yaml2pydantic/nested/)
+
 ---
 
-## 🧪 Testing
+## 🛠️ Development Guide (For Contributors)
+
+### Project Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/banduk/yaml2pydantic.git
+cd yaml2pydantic
+
+# Set up the development environment
+make setup
+
+# Activate the virtual environment
+source .venv/bin/activate
+```
+
+### Project Structure
+
+```
+yaml2pydantic/
+├── main.py                       # Entry point to load + test models
+├── models/                       # YAML/JSON model definitions
+│   └── user.yaml
+├── components/                   # Shared reusable logic
+│   ├── serializers/              # Custom serialization functions
+│   │   └── money.py              # Money-specific serializers
+│   ├── types/                    # Custom types (Money, MonthYear)
+│   │   ├── money.py              # Money type implementation
+│   │   └── monthyear.py          # MonthYear type implementation
+│   └── validators/               # Custom validation logic
+│       ├── email.py              # Email-related validators
+│       └── numeric.py            # Numeric validators
+└── core/                         # Core schema engine
+    ├── factory.py                # ModelFactory that builds Pydantic models
+    ├── loader.py                 # Loads YAML, JSON, or dict input
+    ├── registry.py               # Shared registries for types, validators, serializers
+    ├── types.py                  # TypeRegistry
+    ├── validators.py             # ValidatorRegistry
+    └── serializers.py            # SerializerRegistry
+```
+
+### Development Workflow
+
+1. Create a new feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+2. Make your changes and run tests:
+   ```bash
+   make test
+   ```
+
+3. Run code quality checks:
+   ```bash
+   make lint
+   make format
+   python -m mypy .
+   ```
+
+4. Update documentation:
+   ```bash
+   make docs
+   ```
+
+5. Submit a pull request
+
+### Testing
 
 ```bash
 # Run all tests
@@ -159,9 +241,7 @@ make test
 python -m pytest --cov=yaml2pydantic
 ```
 
----
-
-## 📚 Documentation
+### Documentation
 
 ```bash
 # Build the documentation
@@ -171,9 +251,7 @@ make docs
 make docs-serve
 ```
 
----
-
-## 🧹 Code Quality
+### Code Quality
 
 ```bash
 # Run the linter
@@ -182,22 +260,18 @@ make lint
 # Format the code
 make format
 
-# Run type checking
-python -m mypy .
+# Type check
+make type-check
+
+# Security check
+security-check
 ```
 
----
+Or just run
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run the tests and checks:
-   ```bash
-   make all
-   ```
-5. Submit a pull request
+```bash
+make all-checks
+```
 
 ---
 
@@ -207,50 +281,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🧪 Development Setup
+## 🤝 Contributing
 
-This project uses modern Python development tools for a fast and efficient development experience.
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-### Project Structure
+---
 
-```
-yaml2pydantic/
-├── main.py                        # Entry point to load + test models
-├── models/                        # YAML/JSON model definitions
-│   └── user.yaml
-├── components/            # Shared reusable logic
-│   ├── serializers/              # Custom serialization functions
-│   │   └── money.py             # Money-specific serializers
-│   ├── types/                    # Custom types (Money, MonthYear)
-│   │   ├── money.py             # Money type implementation
-│   │   └── monthyear.py         # MonthYear type implementation
-│   └── validators/               # Custom validation logic
-│       ├── email.py             # Email-related validators
-│       └── numeric.py           # Numeric validators
-└── score/                  # Core schema engine
-    ├── factory.py                # ModelFactory that builds Pydantic models
-    ├── loader.py                 # Loads YAML, JSON, or dict input
-    ├── registry.py               # Shared registries for types, validators, serializers
-    ├── types.py                  # TypeRegistry
-    ├── validators.py             # ValidatorRegistry
-    └── serializers.py            # SerializerRegistry
-```
+## 📚 Documentation
 
-### Common Commands
-
-```bash
-# Set up the environment
-make setup
-
-# Run tests
-make test
-
-# Run linters
-make lint
-
-# Format code
-make format
-
-# Type check
-python -m mypy .
-```
+For detailed documentation, visit our [documentation site](https://banduk.github.io/yaml2pydantic/).
