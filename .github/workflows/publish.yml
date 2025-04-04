@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
-          uv pip install python-semantic-release
+          uv pip install python-semantic-release build twine
 
       - name: Update version and changelog
         if: github.event_name == 'workflow_dispatch'
@@ -45,7 +45,6 @@ jobs:
 
       - name: Build package
         run: |
-          uv pip install build twine
           python -m build
 
       - name: Publish package
