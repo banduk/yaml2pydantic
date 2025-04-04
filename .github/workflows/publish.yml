@@ -44,7 +44,7 @@ jobs:
           # Update version in pyproject.toml
           sed -i "s/^version = .*/version = \"${{ github.event.inputs.version }}\"/" pyproject.toml
           # Generate changelog
-          python -m semantic_release changelog --unreleased
+          python -m semantic_release changelog
 
       - name: Build package
         run: |
