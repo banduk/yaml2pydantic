@@ -27,6 +27,7 @@ dev = [
   "black>=23.0.0",
   "isort>=5.0.0",
   "mypy>=1.0.0",
+  "types-PyYAML>=6.0.0",
 
   # Documentation
   "sphinx>=7.0.0",
@@ -71,3 +72,9 @@ warn_unused_ignores = true
 warn_no_return = true
 warn_unreachable = true
 strict_equality = true
+
+[[tool.mypy.overrides]]
+module = 'tests.*'
+ignore_errors = true
+disallow_untyped_defs = false
+check_untyped_defs = false

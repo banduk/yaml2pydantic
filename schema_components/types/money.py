@@ -13,7 +13,7 @@ class Money(BaseModel):
     - currency: The currency symbol (defaults to "R$")
     """
 
-    amount: int
+    amount: int | float
     currency: str = "R$"
 
     @field_validator("amount", mode="before")

@@ -33,15 +33,18 @@ class SchemaLoader:
             ValueError: If the file format is not supported
 
         """
+        source_dict: dict[str, Any] = {}
         if isinstance(source, dict):
             return source
 
         path = Path(source)
         if path.suffix in [".yaml", ".yml"]:
             with open(path) as f:
-                return yaml.safe_load(f)
+                source_dict = yaml.safe_load(f)
+                return source_dict
         elif path.suffix == ".json":
             with open(path) as f:
-                return json.load(f)
+                source_dict = json.load(f)
+                return source_dict
         else:
             raise ValueError(f"Unsupported file format: {source}")
