@@ -16,15 +16,29 @@ class MonthYear:
     the day to 1 to ensure consistent representation.
     """
 
-    def __init__(self, value: datetime):
+    def __init__(self, value: None | datetime | str | Any):
         """Initialize a MonthYear instance.
 
         Args:
         ----
-            value: A datetime object representing the month and year
+            value: A datetime object or string in MM/YYYY format representing the month and year
 
+        Raises:
+        ------
+            ValueError: If the input format is invalid
         """
-        self.value = value.replace(day=1)
+        if value is None:
+            return None
+        if isinstance(value, str):
+            try:
+                parsed_date = datetime.strptime(value, "%m/%Y")
+            except ValueError as e:
+                raise ValueError(f"Invalid month/year format: {value}") from e
+            self.value = parsed_date
+        elif isinstance(value, datetime):
+            self.value = value.replace(day=1)
+        else:
+            raise ValueError(f"Invalid month/year format: {value}")
 
     def __str__(self) -> str:
         """Convert the MonthYear to a string in MM/YYYY format.
