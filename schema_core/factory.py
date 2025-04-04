@@ -111,6 +111,17 @@ class ModelFactory:
             field_type = self.types.resolve(props["type"])
             field_args = self._get_field_args(props)
 
+            # If the field type is a model and has a default dict value,
+            # we need to ensure the model is built before using it
+            if "default" in field_args and isinstance(field_args["default"], dict):
+                if field_type is not None and hasattr(field_type, "model_validate"):
+                    # Ensure the model is built before using it
+                    if field_type not in self.models.values():
+                        self.build_model(props["type"], definition)
+                    field_args["default"] = field_type.model_validate(
+                        field_args["default"]
+                    )
+
             if "default" in field_args:
                 annotations[field_name] = (field_type, Field(**field_args))
             else:
@@ -172,10 +183,26 @@ class ModelFactory:
             # Register dummy model so types.resolve() can find it
             self.types.register(name, object)  # Use `object` or a placeholder type
 
-        # Step 2: Build and replace dummy models
-        for name, definition in definitions.items():
-            model = self.build_model(name, definition)
-            self.models[name] = model
-            self.types.register(name, model)  # Replace placeholder with real model
+        # Step 2: Build models in dependency order
+        built_models = set()
+        while len(built_models) < len(definitions):
+            for name, definition in definitions.items():
+                if name in built_models:
+                    continue
+
+                # Check if all dependencies are built
+                dependencies = set()
+                for field_def in definition.get("fields", {}).values():
+                    field_type = field_def.get("type", "")
+                    if field_type in definitions and field_type != name:
+                        dependencies.add(field_type)
+
+                if all(dep in built_models for dep in dependencies):
+                    model = self.build_model(name, definition)
+                    self.models[name] = model
+                    self.types.register(
+                        name, model
+                    )  # Replace placeholder with real model
+                    built_models.add(name)
 
         return self.models
