@@ -25,7 +25,7 @@ class TypeRegistry:
         """Resolve a type string to a Python type."""
         if type_str.startswith("Optional["):
             inner = type_str[9:-1]
-            return self.resolve(inner) or None
+            return self.resolve(inner) | None  # type: ignore
         return self.BUILTIN_TYPES.get(type_str) or self.custom_types[type_str]
 
 
