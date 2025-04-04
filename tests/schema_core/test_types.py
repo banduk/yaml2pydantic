@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytest
+
 from schema_core.types import TypeRegistry
 
 
@@ -13,11 +15,11 @@ def test_type_registry_initialization():
 def test_builtin_types():
     """Test that all built-in types are properly defined."""
     registry = TypeRegistry()
-    assert registry.BUILTIN_TYPES["str"] == str
-    assert registry.BUILTIN_TYPES["int"] == int
-    assert registry.BUILTIN_TYPES["float"] == float
-    assert registry.BUILTIN_TYPES["bool"] == bool
-    assert registry.BUILTIN_TYPES["datetime"] == datetime
+    assert registry.BUILTIN_TYPES["str"] is str
+    assert registry.BUILTIN_TYPES["int"] is int
+    assert registry.BUILTIN_TYPES["float"] is float
+    assert registry.BUILTIN_TYPES["bool"] is bool
+    assert registry.BUILTIN_TYPES["datetime"] is datetime
 
 
 def test_custom_type_registration():
@@ -40,9 +42,9 @@ def test_type_resolution():
 
     registry.register("CustomType", CustomType)
 
-    assert registry.resolve("str") == str
-    assert registry.resolve("int") == int
-    assert registry.resolve("CustomType") == CustomType
+    assert registry.resolve("str") is str
+    assert registry.resolve("int") is int
+    assert registry.resolve("CustomType") is CustomType
 
 
 def test_optional_type_resolution():
@@ -56,18 +58,12 @@ def test_optional_type_resolution():
 def test_type_resolution_error_handling():
     """Test error handling when resolving non-existent types."""
     registry = TypeRegistry()
-    try:
+    with pytest.raises(KeyError, match="nonexistent_type"):
         registry.resolve("nonexistent_type")
-        assert False, "Expected KeyError"
-    except KeyError:
-        pass
 
 
 def test_optional_type_error_handling():
     """Test error handling for Optional types with non-existent inner types."""
     registry = TypeRegistry()
-    try:
+    with pytest.raises(KeyError, match="nonexistent_type"):
         registry.resolve("Optional[nonexistent_type]")
-        assert False, "Expected KeyError"
-    except KeyError:
-        pass

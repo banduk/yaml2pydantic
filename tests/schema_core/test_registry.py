@@ -12,10 +12,10 @@ def test_registry_initialization():
 
 def test_type_registry_builtin_types():
     """Test that built-in types are properly registered."""
-    assert types.BUILTIN_TYPES["str"] == str
-    assert types.BUILTIN_TYPES["int"] == int
-    assert types.BUILTIN_TYPES["float"] == float
-    assert types.BUILTIN_TYPES["bool"] == bool
+    assert types.BUILTIN_TYPES["str"] is str
+    assert types.BUILTIN_TYPES["int"] is int
+    assert types.BUILTIN_TYPES["float"] is float
+    assert types.BUILTIN_TYPES["bool"] is bool
     assert types.BUILTIN_TYPES["datetime"] is not None
 
 

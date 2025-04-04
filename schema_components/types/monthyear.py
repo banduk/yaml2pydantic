@@ -21,7 +21,8 @@ class MonthYear:
 
         Args:
         ----
-            value: A datetime object or string in MM/YYYY format representing the month and year
+            value: A datetime object or string in MM/YYYY format representing the month
+            and year
 
         Raises:
         ------
