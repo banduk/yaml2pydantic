@@ -11,7 +11,7 @@ on:
         type: string
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,11 +40,13 @@ jobs:
       - name: Update version and changelog
         if: github.event_name == 'workflow_dispatch'
         run: |
+          source .venv/bin/activate
           python -m semantic_release version --version ${{ github.event.inputs.version }}
           python -m semantic_release changelog --unreleased
 
       - name: Build package
         run: |
+          source .venv/bin/activate
           python -m build
 
       - name: Publish package
@@ -52,11 +54,13 @@ jobs:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
+          source .venv/bin/activate
           twine upload dist/*
 
       - name: Commit version changes
         if: github.event_name == 'workflow_dispatch'
         run: |
+          source .venv/bin/activate
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add pyproject.toml CHANGELOG.md
