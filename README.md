@@ -264,7 +264,7 @@ make format
 make type-check
 
 # Security check
-security-check
+make security-check
 ```
 
 Or just run
