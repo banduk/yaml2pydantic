@@ -11,7 +11,7 @@ on:
         type: string
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
