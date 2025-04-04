@@ -1,3 +1,5 @@
+import pytest
+
 from schema_core.serializers import SerializerRegistry
 
 
@@ -47,8 +49,5 @@ def test_serializer_decorator_returns_original_function():
 def test_serializer_error_handling():
     """Test error handling when retrieving non-existent serializers."""
     registry = SerializerRegistry()
-    try:
+    with pytest.raises(KeyError, match="nonexistent_serializer"):
         registry.get("nonexistent_serializer")
-        assert False, "Expected KeyError"
-    except KeyError:
-        pass

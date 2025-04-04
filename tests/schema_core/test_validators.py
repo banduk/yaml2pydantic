@@ -1,3 +1,5 @@
+import pytest
+
 from schema_core.validators import ValidatorRegistry
 
 
@@ -47,11 +49,8 @@ def test_validator_decorator_returns_original_function():
 def test_validator_error_handling():
     """Test error handling when retrieving non-existent validators."""
     registry = ValidatorRegistry()
-    try:
+    with pytest.raises(KeyError, match="nonexistent_validator"):
         registry.get("nonexistent_validator")
-        assert False, "Expected KeyError"
-    except KeyError:
-        pass
 
 
 def test_multiple_validators():
