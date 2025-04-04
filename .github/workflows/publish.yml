@@ -3,12 +3,20 @@ name: Publish
 on:
   release:
     types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g., 1.0.0)"
+        required: true
+        type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,6 +35,13 @@ jobs:
       - name: Install dependencies
         run: |
           uv pip install -e .[dev]
+          uv pip install python-semantic-release
+
+      - name: Update version and changelog
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          python -m semantic_release version --version ${{ github.event.inputs.version }}
+          python -m semantic_release changelog --unreleased
 
       - name: Build package
         run: |
@@ -39,3 +54,12 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
         run: |
           twine upload dist/*
+
+      - name: Commit version changes
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add pyproject.toml CHANGELOG.md
+          git commit -m "chore: bump version to ${{ github.event.inputs.version }}"
+          git push

@@ -42,6 +42,9 @@ dev = [
   "safety>=2.0.0",
   "bandit>=1.7.0",
   "trufflehog>=2.2.1",
+
+  # Release management
+  "python-semantic-release>=8.0.0",
 ]
 
 [tool.ruff]
