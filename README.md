@@ -53,19 +53,19 @@ source .venv/bin/activate
 
 ```
 yaml2pydantic/
-├── main.py                        # Entry point to load + test models
-├── models/                        # YAML/JSON model definitions
+├── main.py                       # Entry point to load + test models
+├── models/                       # YAML/JSON model definitions
 │   └── user.yaml
-├── components/            # Shared reusable logic
+├── components/                   # Shared reusable logic
 │   ├── serializers/              # Custom serialization functions
-│   │   └── money.py             # Money-specific serializers
+│   │   └── money.py              # Money-specific serializers
 │   ├── types/                    # Custom types (Money, MonthYear)
-│   │   ├── money.py             # Money type implementation
-│   │   └── monthyear.py         # MonthYear type implementation
+│   │   ├── money.py              # Money type implementation
+│   │   └── monthyear.py          # MonthYear type implementation
 │   └── validators/               # Custom validation logic
-│       ├── email.py             # Email-related validators
-│       └── numeric.py           # Numeric validators
-└── schema_core/                  # Core schema engine
+│       ├── email.py              # Email-related validators
+│       └── numeric.py            # Numeric validators
+└── core/                         # Core schema engine
     ├── factory.py                # ModelFactory that builds Pydantic models
     ├── loader.py                 # Loads YAML, JSON, or dict input
     ├── registry.py               # Shared registries for types, validators, serializers
@@ -227,7 +227,7 @@ yaml2pydantic/
 │   └── validators/               # Custom validation logic
 │       ├── email.py             # Email-related validators
 │       └── numeric.py           # Numeric validators
-└── schema_core/                  # Core schema engine
+└── score/                  # Core schema engine
     ├── factory.py                # ModelFactory that builds Pydantic models
     ├── loader.py                 # Loads YAML, JSON, or dict input
     ├── registry.py               # Shared registries for types, validators, serializers

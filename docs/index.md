@@ -50,6 +50,6 @@ The following sections contain the detailed API documentation:
 :maxdepth: 2
 :caption: API Reference
 
-api/schema_core
+api/core
 api/components
 ``` 

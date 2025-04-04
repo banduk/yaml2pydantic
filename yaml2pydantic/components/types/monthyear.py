@@ -6,7 +6,7 @@ from typing import Any
 from pydantic import GetCoreSchemaHandler, GetJsonSchemaHandler
 from pydantic_core import core_schema
 
-from yaml2pydantic.core.registry import types
+from yaml2pydantic import types
 
 
 class MonthYear:

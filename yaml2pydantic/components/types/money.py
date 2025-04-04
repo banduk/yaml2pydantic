@@ -2,7 +2,7 @@
 
 from pydantic import BaseModel, field_validator
 
-from yaml2pydantic.core.registry import types
+from yaml2pydantic import types
 
 
 class Money(BaseModel):

@@ -3,10 +3,10 @@ from datetime import datetime
 import pytest
 import yaml
 
+from yaml2pydantic import serializers, types, validators
 from yaml2pydantic.components.types.money import Money
 from yaml2pydantic.core.factory import ModelFactory
 from yaml2pydantic.core.loader import SchemaLoader
-from yaml2pydantic.core.registry import serializers, types, validators
 
 # Test data
 user_schema = yaml.safe_load("""

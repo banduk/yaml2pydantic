@@ -2,7 +2,7 @@
 
 from typing import Any
 
-from yaml2pydantic.core.registry import validators
+from yaml2pydantic import validators
 
 
 @validators.validator

@@ -58,3 +58,9 @@ security-check: ## Run security checks
 all-checks: setup test lint format type-check security-check
 
 all: setup lint format test ## Run all checks 
+
+docs: ## Build the documentation
+	@. .venv/bin/activate && cd docs && make clean && make html
+
+docs-serve: ## Serve the documentation
+	@. .venv/bin/activate && cd docs && make serve

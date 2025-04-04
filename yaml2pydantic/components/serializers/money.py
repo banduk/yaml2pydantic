@@ -1,5 +1,5 @@
+from yaml2pydantic import serializers
 from yaml2pydantic.components.types.money import Money
-from yaml2pydantic.core.registry import serializers
 
 
 @serializers.serializer

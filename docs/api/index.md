@@ -7,7 +7,7 @@ This section contains the complete API documentation for yaml2pydantic.
 ```{toctree}
 :maxdepth: 2
 
-schema_core
+core
 ```
 
 ## Schema Components

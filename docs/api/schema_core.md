@@ -3,32 +3,32 @@
 This section contains the documentation for the core components of yaml2pydantic.
 
 ```{eval-rst}
-.. automodule:: schema_core.factory
+.. automodule:: core.factory
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_core.loader
+.. automodule:: core.loader
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_core.registry
+.. automodule:: core.registry
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_core.types
+.. automodule:: core.types
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_core.validators
+.. automodule:: core.validators
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: schema_core.serializers
+.. automodule:: core.serializers
    :members:
    :undoc-members:
    :show-inheritance:
