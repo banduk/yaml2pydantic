@@ -184,7 +184,7 @@ class ModelFactory:
             self.types.register(name, object)  # Use `object` or a placeholder type
 
         # Step 2: Build models in dependency order
-        built_models = set()
+        built_models: set[str] = set()
         while len(built_models) < len(definitions):
             for name, definition in definitions.items():
                 if name in built_models:

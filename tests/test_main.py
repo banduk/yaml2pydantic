@@ -47,7 +47,7 @@ Address:
 """)
 
 
-def test_model_creation():
+def test_model_creation() -> None:
     # Load schema and create models
     schema = SchemaLoader.load(user_schema)
     factory = ModelFactory(types, validators, serializers)
@@ -75,7 +75,7 @@ def test_model_creation():
     assert user1.address.zip == "00000"
 
 
-def test_model_creation_with_dict():
+def test_model_creation_with_dict() -> None:
     # Load schema and create models
     schema = SchemaLoader.load(user_schema)
     factory = ModelFactory(types, validators, serializers)
@@ -102,7 +102,7 @@ def test_model_creation_with_dict():
     assert user2.start_date == "04/2025"
 
 
-def test_model_validation():
+def test_model_validation() -> None:
     # Load schema and create models
     schema = SchemaLoader.load(user_schema)
     factory = ModelFactory(types, validators, serializers)
@@ -132,7 +132,7 @@ def test_model_validation():
         )
 
 
-def test_model_serialization():
+def test_model_serialization() -> None:
     # Load schema and create models
     schema = SchemaLoader.load(user_schema)
     factory = ModelFactory(types, validators, serializers)
