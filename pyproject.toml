@@ -11,12 +11,13 @@ version = "0.1.0"
 description = "Convert YAML schemas to Pydantic models"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["pydantic>=2.0.0", "pyyaml>=6.0.0", "rich>=13.0.0"]
+dependencies = ["pydantic>=2.0.0", "pyyaml>=6.0.0"]
 
 [project.optional-dependencies]
 dev = [
   # debugging
   "ipdb>=0.13.0",
+  "rich>=13.0.0",
 
   # Testing
   "pytest>=7.0.0",
