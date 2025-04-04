@@ -1,9 +1,0 @@
-14:18:05.56 [INFO] pantsd 2.19.0 running with PID: 15712
-14:18:05.64 [INFO] handling request: `generate-lockfiles`
-14:18:05.67 [INFO] request completed: `generate-lockfiles`
-14:18:06.57 [ERROR] Client failed to create a Scheduler: shutting down.
-14:18:06.57 [INFO] Waiting for ongoing runs to complete before exiting...
-14:18:06.57 [INFO] Server exiting with Ok(())
-14:18:06.57 [INFO] Waiting for Sessions to complete before exiting...
-14:18:06.57 [INFO] Exiting pantsd
-14:18:06.61 [WARN] File watcher exiting with: The watcher was shut down.
