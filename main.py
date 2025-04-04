@@ -42,8 +42,6 @@ User:
     start_date:
       type: MonthYear
       default: "03/2025"
-  validators:
-    - email_contains_name
 
 Address:
   fields:
