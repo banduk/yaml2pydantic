@@ -7,7 +7,7 @@ packages = ["yaml2pydantic", "yaml2pydantic.core", "yaml2pydantic.components"]
 
 [project]
 name = "yaml2pydantic"
-version = "0.0.1"
+version = "0.0.2"
 description = "Convert YAML schemas to Pydantic models"
 readme = "README.md"
 requires-python = ">=3.11"
