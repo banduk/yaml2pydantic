@@ -1,10 +1,12 @@
 """Numeric validation functions."""
 
+from typing import Any
+
 from schema_core.registry import validators
 
 
 @validators.validator
-def check_positive(cls, v):
+def check_positive(cls: Any, v: int) -> int:
     """Validate that a number is positive.
 
     Args:

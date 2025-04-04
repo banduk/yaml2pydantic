@@ -2,17 +2,17 @@ from datetime import datetime
 
 import pytest
 
-from schema_core.types import TypeRegistry
+from schema_core.type_registry import TypeRegistry
 
 
-def test_type_registry_initialization():
+def test_type_registry_initialization() -> None:
     """Test that the type registry initializes correctly."""
     registry = TypeRegistry()
     assert isinstance(registry.custom_types, dict)
     assert len(registry.custom_types) == 0
 
 
-def test_builtin_types():
+def test_builtin_types() -> None:
     """Test that all built-in types are properly defined."""
     registry = TypeRegistry()
     assert registry.BUILTIN_TYPES["str"] is str
@@ -22,7 +22,7 @@ def test_builtin_types():
     assert registry.BUILTIN_TYPES["datetime"] is datetime
 
 
-def test_custom_type_registration():
+def test_custom_type_registration() -> None:
     """Test registration of custom types."""
     registry = TypeRegistry()
 
@@ -33,7 +33,7 @@ def test_custom_type_registration():
     assert registry.custom_types["CustomType"] == CustomType
 
 
-def test_type_resolution():
+def test_type_resolution() -> None:
     """Test resolution of both built-in and custom types."""
     registry = TypeRegistry()
 
@@ -47,7 +47,7 @@ def test_type_resolution():
     assert registry.resolve("CustomType") is CustomType
 
 
-def test_optional_type_resolution():
+def test_optional_type_resolution() -> None:
     """Test resolution of Optional types."""
     registry = TypeRegistry()
     assert registry.resolve("Optional[str]") == str | None
@@ -55,14 +55,14 @@ def test_optional_type_resolution():
     assert registry.resolve("Optional[float]") == float | None
 
 
-def test_type_resolution_error_handling():
+def test_type_resolution_error_handling() -> None:
     """Test error handling when resolving non-existent types."""
     registry = TypeRegistry()
     with pytest.raises(KeyError, match="nonexistent_type"):
         registry.resolve("nonexistent_type")
 
 
-def test_optional_type_error_handling():
+def test_optional_type_error_handling() -> None:
     """Test error handling for Optional types with non-existent inner types."""
     registry = TypeRegistry()
     with pytest.raises(KeyError, match="nonexistent_type"):

@@ -1,4 +1,4 @@
-.PHONY: setup lint format clean test help security-check
+.PHONY: setup lint format clean test help security-check type-check
 
 help: ## Show this help message
 	@echo 'Usage:'
@@ -32,6 +32,9 @@ lint: ## Run the linter
 
 lint-fix: ## Run the linter and fix the issues
 	@. .venv/bin/activate && ruff check --fix .
+
+type-check: ## Run type checking
+	@. .venv/bin/activate && mypy .
 
 format: ## Format the code
 	@. .venv/bin/activate && ruff format .

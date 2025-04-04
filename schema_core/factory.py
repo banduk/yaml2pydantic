@@ -12,7 +12,7 @@ from pydantic import (
 )
 
 from schema_core.serializers import SerializerRegistry
-from schema_core.types import TypeRegistry
+from schema_core.type_registry import TypeRegistry
 from schema_core.validators import ValidatorRegistry
 
 logger = logging.getLogger(__name__)
@@ -47,10 +47,10 @@ class ModelFactory:
         self.types = types
         self.validators = validators
         self.serializers = serializers
-        self.models = {}
+        self.models: dict[str, Any] = {}
         self._load_schema_components()
 
-    def _load_schema_components(self):
+    def _load_schema_components(self) -> None:
         """Load all schema components from the schema_components directory.
 
         This includes types, validators, and serializers.
@@ -88,7 +88,7 @@ class ModelFactory:
 
         return field_args
 
-    def build_model(self, name: str, definition: dict[str, Any]):
+    def build_model(self, name: str, definition: dict[str, Any]) -> Any:
         """Build a Pydantic model from a schema definition.
 
         Args:
@@ -116,7 +116,7 @@ class ModelFactory:
             else:
                 annotations[field_name] = (field_type, Field(..., **field_args))
 
-        model = create_model(name, **annotations)
+        model = create_model(name, **annotations)  # type: ignore
         self.models[name] = model
 
         for field_name, props in fields_def.items():
@@ -151,7 +151,7 @@ class ModelFactory:
 
         return model
 
-    def build_all(self, definitions: dict[str, Any]):
+    def build_all(self, definitions: dict[str, Any]) -> dict[str, Any]:
         """Build all models from a schema definition dictionary.
 
         This method handles forward references by:

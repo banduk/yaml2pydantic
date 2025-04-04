@@ -11,7 +11,7 @@ are imported from the schema_components directory.
 
 import schema_components  # noqa: F401 -- triggers auto-import
 from schema_core.serializers import SerializerRegistry
-from schema_core.types import TypeRegistry
+from schema_core.type_registry import TypeRegistry
 from schema_core.validators import ValidatorRegistry
 
 # These will be populated by schema_components auto-import side effect

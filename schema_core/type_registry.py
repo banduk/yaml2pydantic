@@ -13,7 +13,7 @@ class TypeRegistry:
         "datetime": datetime,
     }
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize an empty type registry."""
         self.custom_types: dict[str, type] = {}
 
@@ -21,11 +21,11 @@ class TypeRegistry:
         """Register a custom type."""
         self.custom_types[name] = type_class
 
-    def resolve(self, type_str: str) -> type:
+    def resolve(self, type_str: str) -> type | None:
         """Resolve a type string to a Python type."""
         if type_str.startswith("Optional["):
             inner = type_str[9:-1]
-            return self.resolve(inner) | None
+            return self.resolve(inner) or None
         return self.BUILTIN_TYPES.get(type_str) or self.custom_types[type_str]
 
 

@@ -8,11 +8,11 @@ class ValidatorRegistry:
     used to validate fields and models in the generated models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize an empty validator registry."""
         self.validators: dict[str, Callable] = {}
 
-    def validator(self, func: Callable):
+    def validator(self, func: Callable) -> Callable:
         """Register a validator function.
 
         Args:
@@ -27,7 +27,7 @@ class ValidatorRegistry:
         self.validators[func.__name__] = func
         return func
 
-    def get(self, name: str):
+    def get(self, name: str) -> Callable:
         """Get a validator by name.
 
         Args:

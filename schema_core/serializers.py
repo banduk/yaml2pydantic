@@ -8,11 +8,11 @@ class SerializerRegistry:
     used to customize field serialization in the generated models.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize an empty serializer registry."""
         self.serializers: dict[str, Callable] = {}
 
-    def serializer(self, func: Callable):
+    def serializer(self, func: Callable) -> Callable:
         """Register a serializer function.
 
         Args:
@@ -27,7 +27,7 @@ class SerializerRegistry:
         self.serializers[func.__name__] = func
         return func
 
-    def get(self, name: str):
+    def get(self, name: str) -> Callable:
         """Get a serializer by name.
 
         Args:
