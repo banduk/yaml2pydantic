@@ -1,11 +1,11 @@
 # 🧬 yaml2pydantic
 
 [![PyPI version](https://badge.fury.io/py/yaml2pydantic.svg)](https://badge.fury.io/py/yaml2pydantic)
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/downloads/)
+[![codecov](https://codecov.io/gh/banduk/yaml2pydantic/graph/badge.svg?token=K6URH6AYDX)](https://codecov.io/gh/banduk/yaml2pydantic)
+[![Documentation](https://img.shields.io/badge/%F0%9F%93%98-documentation-blue?link=https%3A%2F%2Fbanduk.github.io%2Fyaml2pydantic%2F)](https://banduk.github.io/yaml2pydantic/)
+[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI Status](https://github.com/banduk/yaml2pydantic/actions/workflows/ci.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/ci.yml)
-[![Documentation Status](https://github.com/banduk/yaml2pydantic/actions/workflows/docs.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/docs.yml)
-[![Security Scan](https://github.com/banduk/yaml2pydantic/actions/workflows/security.yml/badge.svg)](https://github.com/banduk/yaml2pydantic/actions/workflows/security.yml)
+
 
 **A powerful, extensible schema compiler that turns YAML/JSON definitions into dynamic Pydantic models** — with full support for:
 
