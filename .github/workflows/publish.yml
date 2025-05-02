@@ -116,7 +116,7 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add pyproject.toml CHANGELOG.md querymate/__init__.py
+          git add pyproject.toml CHANGELOG.md yaml2pydantic/__init__.py
           git commit -m "chore: bump version to ${{ github.event.inputs.version }}"
           git tag -a "v${{ github.event.inputs.version }}" -m "Release v${{ github.event.inputs.version }}"
           git push origin "v${{ github.event.inputs.version }}"
@@ -138,7 +138,7 @@ jobs:
             ## Installation
 
             ```bash
-            pip install querymate==${{ github.event.inputs.version }}
+            pip install yaml2pydantic==${{ github.event.inputs.version }}
             ```
           tag_name: v${{ github.event.inputs.version }}
           draft: false
@@ -186,7 +186,7 @@ jobs:
 
       - name: Build documentation
         env:
-          QUERYMATE_VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
+          YAML2PYDANTIC_VERSION: ${{ github.event.inputs.version || github.event.release.tag_name }}
         run: |
           source .venv/bin/activate
           cd docs
