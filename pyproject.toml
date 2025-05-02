@@ -45,6 +45,7 @@ dev = [
 
   # Release management
   "python-semantic-release>=8.0.0",
+  "toml>=0.10.2",
 ]
 
 [tool.ruff]
