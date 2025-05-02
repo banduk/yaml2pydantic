@@ -29,9 +29,7 @@ install: ## Install the dependencies
 
 lint: ## Run the linter
 	@. .venv/bin/activate && ruff check .
-
-lint-fix: ## Run the linter and fix the issues
-	@. .venv/bin/activate && ruff check --fix .
+	@. .venv/bin/activate && mypy yaml2pydantic/ tests/
 
 type-check: ## Run type checking
 	@. .venv/bin/activate && mypy .
@@ -58,7 +56,7 @@ security-check: ## Run security checks
 	bandit -r . --skip B101 --exclude .venv,venv,env,site-packages,dist,build && \
 	trufflehog file://. --repo_path . --exclude_paths .trufflehog-exclude
 
-all-checks: setup test lint format type-check security-check
+all-checks: setup test format lint security-check
 
 all: setup lint format test ## Run all checks 
 

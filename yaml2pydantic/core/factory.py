@@ -1,5 +1,6 @@
 import importlib
 import logging
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +30,11 @@ class ModelFactory:
     - Custom serialization
     """
 
+    types: TypeRegistry
+    validators: ValidatorRegistry
+    serializers: SerializerRegistry
+    models: dict[str, type[BaseModel]]
+
     def __init__(
         self,
         types: TypeRegistry,
@@ -47,7 +53,7 @@ class ModelFactory:
         self.types = types
         self.validators = validators
         self.serializers = serializers
-        self.models: dict[str, Any] = {}
+        self.models: dict[str, type[BaseModel]] = {}
         self._load_components()
 
     def _load_components(self) -> None:
@@ -90,7 +96,13 @@ class ModelFactory:
 
         return field_args
 
-    def _process_field_default(self, field_type, field_args, props, definition):
+    def _process_field_default(
+        self,
+        field_type: Any,
+        field_args: dict[str, Any],
+        props: dict[str, Any],
+        definition: dict[str, Any],
+    ) -> dict[str, Any]:
         """Process default value for a field, especially for model types.
 
         Args:
@@ -116,8 +128,13 @@ class ModelFactory:
         return field_args
 
     def _add_field_to_model(
-        self, field_name, field_type, field_args, namespace, annotations
-    ):
+        self,
+        field_name: str,
+        field_type: Any,
+        field_args: dict[str, Any],
+        namespace: dict[str, Any],
+        annotations: dict[str, Any],
+    ) -> None:
         """Add a field to the model namespace and annotations.
 
         Args:
@@ -134,7 +151,9 @@ class ModelFactory:
         else:
             namespace[field_name] = Field(..., **field_args)
 
-    def _add_serializers(self, field_name, props, namespace):
+    def _add_serializers(
+        self, field_name: str, props: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
         """Add serializers for a field to the model namespace.
 
         Args:
@@ -148,9 +167,11 @@ class ModelFactory:
             serializer_fn = self.serializers.get(serializer_name)
 
             # Create a serializer method
-            def create_serializer(fn):
+            def create_serializer(
+                fn: Callable[[Any], Any],
+            ) -> Callable[[Any], Any]:
                 @field_serializer(field_name)
-                def serializer(self, v, _info):
+                def serializer(v: Any) -> Any:
                     return fn(v)
 
                 return serializer
@@ -159,7 +180,9 @@ class ModelFactory:
                 serializer_fn
             )
 
-    def _add_field_validators(self, field_name, props, namespace):
+    def _add_field_validators(
+        self, field_name: str, props: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
         """Add field validators to the model namespace.
 
         Args:
@@ -174,7 +197,9 @@ class ModelFactory:
                 field_name
             )(validator_fn)
 
-    def _add_model_validators(self, definition, namespace):
+    def _add_model_validators(
+        self, definition: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
         """Add model validators to the model namespace.
 
         Args:
@@ -205,8 +230,8 @@ class ModelFactory:
             return self.models[name]
 
         fields_def = definition.get("fields", {})
-        namespace = {}
-        annotations = {}
+        namespace: dict[str, Any] = {}
+        annotations: dict[str, Any] = {}
 
         # Process all field definitions
         for field_name, props in fields_def.items():

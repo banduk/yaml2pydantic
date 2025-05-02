@@ -1,12 +1,12 @@
-from yaml2pydantic.core.factory import ModelFactory
-from yaml2pydantic.core.loader import SchemaLoader
-from yaml2pydantic.core.serializers import SerializerRegistry
-from yaml2pydantic.core.type_registry import TypeRegistry
-from yaml2pydantic.core.validators import ValidatorRegistry
+__version__ = "0.1.0"
+
+from .core.factory import ModelFactory as ModelFactory
+from .core.loader import SchemaLoader as SchemaLoader
+from .core.registry import SerializerRegistry as SerializerRegistry
+from .core.registry import TypeRegistry as TypeRegistry
+from .core.registry import ValidatorRegistry as ValidatorRegistry
 
 # Create registry instances
 types = TypeRegistry()
 serializers = SerializerRegistry()
 validators = ValidatorRegistry()
-
-__all__ = ["ModelFactory", "SchemaLoader", "serializers", "types", "validators"]

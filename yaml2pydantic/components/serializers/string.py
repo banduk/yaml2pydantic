@@ -1,10 +1,12 @@
 """String serializers for YAML2Pydantic models."""
 
+from typing import Any
+
 from yaml2pydantic.core.serializers import serializer_registry
 
 
 @serializer_registry.serializer
-def to_upper(value: str) -> str:
+def to_upper(value: str, _info: Any | None = None, **kwargs: Any) -> str:
     """Convert a string to uppercase.
 
     Args:
@@ -17,7 +19,7 @@ def to_upper(value: str) -> str:
 
 
 @serializer_registry.serializer
-def to_lower(value: str) -> str:
+def to_lower(value: str, _info: Any | None = None, **kwargs: Any) -> str:
     """Convert a string to lowercase.
 
     Args:
