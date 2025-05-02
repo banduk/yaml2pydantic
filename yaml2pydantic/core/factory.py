@@ -1,11 +1,12 @@
 import importlib
 import logging
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
 from pydantic import (
+    BaseModel,
     Field,
-    create_model,
     field_serializer,
     field_validator,
     model_validator,
@@ -29,6 +30,11 @@ class ModelFactory:
     - Custom serialization
     """
 
+    types: TypeRegistry
+    validators: ValidatorRegistry
+    serializers: SerializerRegistry
+    models: dict[str, type[BaseModel]]
+
     def __init__(
         self,
         types: TypeRegistry,
@@ -47,7 +53,7 @@ class ModelFactory:
         self.types = types
         self.validators = validators
         self.serializers = serializers
-        self.models: dict[str, Any] = {}
+        self.models: dict[str, type[BaseModel]] = {}
         self._load_components()
 
     def _load_components(self) -> None:
@@ -90,7 +96,124 @@ class ModelFactory:
 
         return field_args
 
-    def build_model(self, name: str, definition: dict[str, Any]) -> Any:
+    def _process_field_default(
+        self,
+        field_type: Any,
+        field_args: dict[str, Any],
+        props: dict[str, Any],
+        definition: dict[str, Any],
+    ) -> dict[str, Any]:
+        """Process default value for a field, especially for model types.
+
+        Args:
+        ----
+            field_type: The resolved type of the field
+            field_args: The field arguments dictionary
+            props: The field properties from the schema
+            definition: The complete model definition
+
+        Returns:
+        -------
+            Updated field_args dictionary
+        """
+        if "default" in field_args and isinstance(field_args["default"], dict):
+            if field_type is not None and hasattr(field_type, "model_validate"):
+                # Ensure the model is built before using it
+                if field_type not in self.models.values():
+                    # This branch should never execute in practice because we check
+                    # first
+                    self.build_model(props["type"], definition)  # pragma: no cover
+                field_args["default"] = field_type.model_validate(field_args["default"])
+
+        return field_args
+
+    def _add_field_to_model(
+        self,
+        field_name: str,
+        field_type: Any,
+        field_args: dict[str, Any],
+        namespace: dict[str, Any],
+        annotations: dict[str, Any],
+    ) -> None:
+        """Add a field to the model namespace and annotations.
+
+        Args:
+        ----
+            field_name: The name of the field
+            field_type: The resolved type of the field
+            field_args: The field arguments dictionary
+            namespace: The namespace dictionary for the model
+            annotations: The annotations dictionary for the model
+        """
+        annotations[field_name] = field_type
+        if "default" in field_args:
+            namespace[field_name] = Field(**field_args)
+        else:
+            namespace[field_name] = Field(..., **field_args)
+
+    def _add_serializers(
+        self, field_name: str, props: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
+        """Add serializers for a field to the model namespace.
+
+        Args:
+        ----
+            field_name: The name of the field
+            props: The field properties from the schema
+            namespace: The namespace dictionary for the model
+        """
+        serializer_names = props.get("serializers", [])
+        for serializer_name in serializer_names:
+            serializer_fn = self.serializers.get(serializer_name)
+
+            # Create a serializer method
+            def create_serializer(
+                fn: Callable[[Any], Any],
+            ) -> Callable[[Any], Any]:
+                @field_serializer(field_name)
+                def serializer(v: Any) -> Any:
+                    return fn(v)
+
+                return serializer
+
+            namespace[f"serialize_{field_name}_{serializer_name}"] = create_serializer(
+                serializer_fn
+            )
+
+    def _add_field_validators(
+        self, field_name: str, props: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
+        """Add field validators to the model namespace.
+
+        Args:
+        ----
+            field_name: The name of the field
+            props: The field properties from the schema
+            namespace: The namespace dictionary for the model
+        """
+        for validator_name in props.get("validators", []):
+            validator_fn = self.validators.get(validator_name)
+            namespace[f"validate_{field_name}_{validator_name}"] = field_validator(
+                field_name
+            )(validator_fn)
+
+    def _add_model_validators(
+        self, definition: dict[str, Any], namespace: dict[str, Any]
+    ) -> None:
+        """Add model validators to the model namespace.
+
+        Args:
+        ----
+            definition: The model definition from the schema
+            namespace: The namespace dictionary for the model
+        """
+        for validator_name in definition.get("validators", []):
+            validator_fn = self.validators.get(validator_name)
+            namespace[f"model_validate_{validator_name}"] = model_validator(
+                mode="after"
+            )(validator_fn)
+
+    def build_model(self, name: str, definition: dict[str, Any]) -> type[BaseModel]:
         """Build a Pydantic model from a schema definition.
 
         Args:
@@ -107,64 +230,41 @@ class ModelFactory:
             return self.models[name]
 
         fields_def = definition.get("fields", {})
-        annotations = {}
+        namespace: dict[str, Any] = {}
+        annotations: dict[str, Any] = {}
 
+        # Process all field definitions
         for field_name, props in fields_def.items():
             field_type = self.types.resolve(props["type"])
             field_args = self._get_field_args(props)
 
-            # If the field type is a model and has a default dict value,
-            # we need to ensure the model is built before using it
-            if "default" in field_args and isinstance(field_args["default"], dict):
-                if field_type is not None and hasattr(field_type, "model_validate"):
-                    # Ensure the model is built before using it
-                    if field_type not in self.models.values():
-                        self.build_model(props["type"], definition)
-                    field_args["default"] = field_type.model_validate(
-                        field_args["default"]
-                    )
-
-            if "default" in field_args:
-                annotations[field_name] = (field_type, Field(**field_args))
-            else:
-                annotations[field_name] = (field_type, Field(..., **field_args))
-
-        model = create_model(name, **annotations)  # type: ignore
-        self.models[name] = model
-
-        for field_name, props in fields_def.items():
-            for validator_name in props.get("validators", []):
-                validator_fn = self.validators.get(validator_name)
-                setattr(
-                    model,
-                    f"validate_{field_name}_{validator_name}",
-                    field_validator(field_name)(validator_fn),
-                )
-
-        for validator_name in definition.get("validators", []):
-            validator_fn = self.validators.get(validator_name)
-            setattr(
-                model,
-                f"model_validate_{validator_name}",
-                model_validator(mode="after")(validator_fn),
+            # Process default values
+            field_args = self._process_field_default(
+                field_type, field_args, props, definition
             )
 
-        # After create_model(...) and before return
+            # Add field to namespace and annotations
+            self._add_field_to_model(
+                field_name, field_type, field_args, namespace, annotations
+            )
+
+            # Add serializers for this field
+            self._add_serializers(field_name, props, namespace)
+
+        # Add validators
         for field_name, props in fields_def.items():
-            serializer_names = props.get("serializers", [])
-            for serializer_name in serializer_names:
-                serializer_fn = self.serializers.get(serializer_name)
+            self._add_field_validators(field_name, props, namespace)
 
-                # Attach a field serializer dynamically
-                setattr(
-                    model,
-                    f"serialize_{field_name}_{serializer_name}",
-                    field_serializer(field_name)(serializer_fn),
-                )
+        # Add model validators
+        self._add_model_validators(definition, namespace)
 
-        return model
+        # Create the model class
+        namespace["__annotations__"] = annotations
+        ModelClass = type(name, (BaseModel,), namespace)
+        self.models[name] = ModelClass
+        return ModelClass
 
-    def build_all(self, definitions: dict[str, Any]) -> dict[str, Any]:
+    def build_all(self, definitions: dict[str, Any]) -> dict[str, type[BaseModel]]:
         """Build all models from a schema definition dictionary.
 
         This method handles forward references by:

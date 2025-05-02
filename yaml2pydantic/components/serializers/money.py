@@ -1,9 +1,11 @@
+from typing import Any
+
 from yaml2pydantic import serializers
 from yaml2pydantic.components.types.money import Money
 
 
 @serializers.serializer
-def money_as_string(value: Money) -> str:
+def money_as_string(value: Money, _info: Any | None = None, **kwargs: Any) -> str:
     """Format a Money instance as a human-readable string.
 
     This serializer converts a Money instance into a formatted string
