@@ -49,3 +49,22 @@ def test_monthyear_invalid_input() -> None:
     """Test MonthYear with invalid input."""
     with pytest.raises(ValueError):
         MonthYear("invalid")
+
+
+def test_monthyear_none_input() -> None:
+    """Test MonthYear with None input."""
+    with pytest.raises(ValueError):
+        MonthYear(None)
+
+
+def test_monthyear_from_str() -> None:
+    """Test MonthYear from string input."""
+    monthyear = MonthYear("03/2025")
+    assert monthyear.value.year == 2025
+    assert monthyear.value.month == 3
+
+
+def test_monthyear_from_invalid_type() -> None:
+    """Test MonthYear from invalid type input."""
+    with pytest.raises(ValueError):
+        MonthYear(1)

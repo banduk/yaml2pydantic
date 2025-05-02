@@ -40,7 +40,10 @@ format: ## Format the code
 	@. .venv/bin/activate && ruff format .
 
 test: ## Run tests
-	@. .venv/bin/activate && python -m pytest
+	@. .venv/bin/activate && python -m pytest -s
+
+test-cov: ## Run tests with coverage
+	@. .venv/bin/activate && python -m pytest -s --cov=yaml2pydantic --cov-report=term-missing tests/
 
 clean: ## Clean up build artifacts
 	@rm -rf .pytest_cache/ .ruff_cache/

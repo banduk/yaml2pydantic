@@ -29,7 +29,7 @@ class MonthYear:
             ValueError: If the input format is invalid
         """
         if value is None:
-            return None
+            raise ValueError("MonthYear cannot be None")
         if isinstance(value, str):
             try:
                 parsed_date = datetime.strptime(value, "%m/%Y")

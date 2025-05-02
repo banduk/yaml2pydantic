@@ -6,7 +6,14 @@ import yaml
 from yaml2pydantic import serializers, types, validators
 from yaml2pydantic.components.types.money import Money
 from yaml2pydantic.core.factory import ModelFactory
-from yaml2pydantic.core.loader import SchemaLoader
+
+
+@pytest.fixture(autouse=True)
+def register_types():
+    """Register custom types before running tests."""
+    types.register("Money", Money)
+    yield
+
 
 # Test data
 user_schema = yaml.safe_load("""
@@ -48,10 +55,9 @@ Address:
 
 
 def test_model_creation() -> None:
-    # Load schema and create models
-    schema = SchemaLoader.load(user_schema)
+    # Create factory and build models
     factory = ModelFactory(types, validators, serializers)
-    models = factory.build_all(schema)
+    models = factory.build_all(user_schema)
     User = models["User"]
 
     # Test creating user with direct parameters
@@ -76,10 +82,9 @@ def test_model_creation() -> None:
 
 
 def test_model_creation_with_dict() -> None:
-    # Load schema and create models
-    schema = SchemaLoader.load(user_schema)
+    # Create factory and build models
     factory = ModelFactory(types, validators, serializers)
-    models = factory.build_all(schema)
+    models = factory.build_all(user_schema)
     User = models["User"]
 
     # Test creating user with dictionary unpacking
@@ -103,10 +108,9 @@ def test_model_creation_with_dict() -> None:
 
 
 def test_model_validation() -> None:
-    # Load schema and create models
-    schema = SchemaLoader.load(user_schema)
+    # Create factory and build models
     factory = ModelFactory(types, validators, serializers)
-    models = factory.build_all(schema)
+    models = factory.build_all(user_schema)
     User = models["User"]
 
     # Test validation of name length
@@ -133,10 +137,9 @@ def test_model_validation() -> None:
 
 
 def test_model_serialization() -> None:
-    # Load schema and create models
-    schema = SchemaLoader.load(user_schema)
+    # Create factory and build models
     factory = ModelFactory(types, validators, serializers)
-    models = factory.build_all(schema)
+    models = factory.build_all(user_schema)
     User = models["User"]
 
     user = User(

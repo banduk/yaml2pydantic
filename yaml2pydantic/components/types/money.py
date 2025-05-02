@@ -2,8 +2,6 @@
 
 from pydantic import BaseModel, field_validator
 
-from yaml2pydantic import types
-
 
 class Money(BaseModel):
     """A type for handling money values with cents precision.
@@ -33,7 +31,3 @@ class Money(BaseModel):
         if isinstance(v, float):
             return round(v * 100)
         return v
-
-
-# Register globally once
-types.register("Money", Money)
